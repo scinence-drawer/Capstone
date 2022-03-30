@@ -248,28 +248,6 @@
 
         fetchText();
 
-    //     var xhr= new XMLHttpRequest();
-    //     xhr.open("get", "/mp3", true);
-    // //     // xhr.responseType="blob"
-    // //     xhr.responseType = "arraybuffer"
-    //     xhr.send();
-    //     xhr.onload = function () {
-    //         if (xhr.readyState == 4 && xhr.status == 200) {
-    //             // 4 = "loaded" && 200 =  ok
-    //             console.log(xhr)
-    //             console.log(xhr.response)
-    //             speakText(xhr.response)
-    //         }
-    //     }
-
-          //synthesisText.value
-          //要改语音输出的内容就在这里改   合成
-          // var synthesisText= new Object();
-          //synthesisText.value='悦悦是爸爸妈妈爱读书爱学习懂道理，健康聪明快乐的好孩子。';
-          // synthesisText.value='文化与传承只能在他诞生与繁衍的地方，古老的建筑，口口相传的语言，历经。岁月变迁的文字，这些都是他的载体，街头巷尾的叫卖声，这是文化沿街皮匠铺的手艺，90文化，皇家骑士冒灰上的文章就是文化，就连街边行人看到访客之后挥手的那个手势都是文化——而这些东西从古代流传到现在，成为人们习以为常的元素，并展现在你面前，这，就是传承。';
-        // speakText(synthesisText.value)
-
-
       });
 
       Initialize(async function (speechSdk) {
@@ -419,6 +397,7 @@
           //eventsDiv.innerHTML += "(Viseme), Audio offset: " + e.audioOffset / 10000 + "ms. Viseme ID: " + e.visemeId + '\n';
           talkingHeadDiv.innerHTML = e.animation.replaceAll("begin=\"0.5s\"", "begin=\"indefinite\"");
           $("svg").width('500px').height('500px');
+
         }
 
         synthesizer.bookmarkReached = function (s, e) {
