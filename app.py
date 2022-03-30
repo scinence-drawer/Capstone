@@ -29,6 +29,10 @@ def hello_world():  # put application's code here
     return render_template("index.html")
 
 
+@app.route('/mouth')
+def speak():  # put application's code here
+    return render_template("mouth.html")
+
 if __name__ == '__main__':
     app.run()
 # @app.route("/response",methods=("GET", "POST"))
