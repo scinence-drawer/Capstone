@@ -72,6 +72,8 @@ vm.contents.push(data[0]);
 vm.contents.push(data[1]);
 
 function moveChat() {
-    const wrap = document.getElementById('wrapper');
+    const wrap = document.getElementById('chat-wrapper');
     wrap.scrollTop = wrap.scrollHeight;
 }
+
+

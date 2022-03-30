@@ -99,7 +99,7 @@
             </div>
         </div>
         <div class="video-call-actions ">
-            <button class="video-action-button mic"></button>
+            <button class="video-action-button mic" id="fang"></button>
             <button class="video-action-button camera"></button>
             <button class="video-action-button maximize" id="unity-fullscreen-button"></button>
         </div>
@@ -117,7 +117,7 @@
 
         <div class="ui-wrapper">
             <div id="app" class="container">
-                <div id="wrapper" class="chat-wrapper">
+                <div id="chat-wrapper" class="chat-wrapper">
                     <bubble
                             v-for="content in contents"
                             v-bind:bubbtext="content.text"
@@ -173,6 +173,11 @@
 <script src="../static/js/script.js"></script>
 <script src='../static/chatPage/vue.min.js'></script>
 <script src="../static/chatPage/script.js"></script>
+<script src="../static/js/capstone.js"></script>
+<script src="../static/microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
+
+
+
 <script>
     var buildUrl = "{{ url_for('static', filename='Build') }}";
     var loaderUrl = buildUrl + "/Project-Test.loader.js";
