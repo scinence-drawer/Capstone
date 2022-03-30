@@ -1,0 +1,420 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue自动对话聊天窗口特效</title>
+
+    <link rel="stylesheet" href="../static/chatPage/style.css">
+    <script src="../static/chatPage/jquery.js"></script>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div id="app" class="container">
+    <div id="wrapper" class="chat-wrapper">
+        <bubble
+                v-for="content in contents"
+                v-bind:bubbtext="content.text"
+                v-bind:class="content.isUser ? 'bubble-right' : 'bubble-left'"
+        >
+        </bubble>
+        <div v-show="isTyping" class="bubble bubble-right bubble-thinking">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+        <div v-show="isThinking" class="bubble bubble-left bubble-thinking">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+
+        <p v-if="noResponses" class="small disabled">User has left the chat. ☹️</p>
+    </div>
+
+
+
+    <div class="chat-input">
+        <input
+                v-on:keyup.enter="addToChat"
+                v-model="newMessage"
+                type="text"
+                name="chatText"
+                id="chatText"
+                class="input-control input-text"
+                placeholder="Type a message"
+        />
+        <button v-on:click="addToChat" class="input-control input-button" >Send</button>
+        <button onclick="interact()" id="fang">on</button>
+    </div>
+    
+    <div>
+        <audio class="audio"  id="music" src="../static/826.wav"   ></audio>
+    </div>
+</div>
+
+
+
+
+<!-- partial -->
+<script src='../static/chatPage/vue.min.js'></script>
+<script src="../static/chatPage/script.js"></script>
+<script>
+    function interact(object) {
+    //
+    //     var audioEle = document.getElementById("music");
+    //     var xhr = new XMLHttpRequest();
+    //     xhr.open("get", "/mp3", true)
+    //     // xhr.responseType="blob"
+    //     xhr.responseType = "arraybuffer"
+    //     xhr.send(null)
+    //     var kfc;
+    //     var arr = [];
+    //     xhr.onload = function () {
+    //         if (xhr.readyState == 4 && xhr.status == 200) {
+    //             // 4 = "loaded" && 200 =  ok
+    //             console.log(xhr)
+    //             // console.log(xhr.response)  //不加
+    //             // responseType="arraybuffer"
+    //             // 或者blob，会很卡，一大堆乱码
+    //             arr.push(xhr.response)
+    //             console.log(arr)
+    //             // var blob=new Blob([xhr.response])
+    //             var blob = new Blob(arr)
+    //             console.log(blob)
+    //             kfc = window.URL.createObjectURL(blob)
+    //             console.log(kfc)
+    //             audioEle.src = kfc
+    //             //audioEle.load()
+    //             audioEle.play()
+    //         }
+    //     }
+    }
+</script>
+
+<script src="../static/microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
+
+<script>
+
+    ///////雄关漫道真如铁，而今迈步从头越
+    ///////雄关漫道真如铁，而今迈步从头越
+    ///////雄关漫道真如铁，而今迈步从头越
+    ///////雄关漫道真如铁，而今迈步从头越
+    ///////雄关漫道真如铁，而今迈步从头越
+
+
+
+    // On document load resolve the Speech SDK dependency
+    function Initialize(onComplete) {
+        if (!!window.SpeechSDK) {
+            // document.getElementById('content').style.display = 'block';
+            // document.getElementById('warning').style.display = 'none';
+            onComplete(window.SpeechSDK);
+        }
+    }
+</script>
+
+<script>
+
+    // status fields and start button in UI
+    var //resultsDiv,
+        //eventsDiv,
+        talkingHeadDiv,
+        highlightDiv;
+    var startSynthesisAsyncButton, pauseButton, resumeButton, downloadButton;
+    var updateVoiceListButton;
+
+    // subscription key and region for speech services.
+    var subscriptionKey, regionOptions;
+    var authorizationToken;
+    var voiceOptions, isSsml;
+    var SpeechSDK;
+    var synthesisText;
+    var synthesizer;
+    var player;
+    var wordBoundaryList = [];
+
+    function getExtensionFromFormat(format) {
+      format = format.toLowerCase();
+      if (format.includes('mp3')) {
+        return 'mp3';
+      } else if (format.includes('ogg')) {
+        return 'ogg';
+      } else if (format.includes('webm')) {
+        return 'webm';
+      } else if (format.includes('ogg')) {
+        return 'ogg';
+      } else if (format.includes('silk')) {
+        return 'silk';
+      } else if (format.includes('riff')) {
+        return 'wav';
+      } else {
+        return 'pcm';
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      startSynthesisAsyncButton = document.getElementById("fang");
+      updateVoiceListButton = document.getElementById("fang");
+      pauseButton = document.getElementById("pauseButton");
+      resumeButton = document.getElementById("resumeButton");
+      downloadButton = document.getElementById("downloadButton");
+      subscriptionKey = document.getElementById("subscriptionKey");
+      regionOptions = document.getElementById("regionOptions");
+      //resultsDiv = document.getElementById("//resultsDiv");
+      //eventsDiv = document.getElementById("//eventsDiv");
+      voiceOptions = document.getElementById("voiceOptions");
+      isSsml = document.getElementById("isSSML");
+      talkingHeadDiv = document.getElementById("talkingHeadDiv");
+      highlightDiv = document.getElementById("highlightDiv");
+
+      setInterval(function () {
+        if (player !== undefined) {
+          const currentTime = player.currentTime;
+          var wordBoundary;
+          for (const e of wordBoundaryList) {
+            if (currentTime * 1000 > e.audioOffset / 10000) {
+              wordBoundary = e;
+            } else {
+              break;
+            }
+          }
+          if (wordBoundary !== undefined) {
+            // highlightDiv.innerHTML = synthesisText.value.substr(0, wordBoundary.textOffset) +
+            //         "<span class='highlight'>" + wordBoundary.text + "</span>" +
+            //         synthesisText.value.substr(wordBoundary.textOffset + wordBoundary.wordLength);
+          } else {
+            // highlightDiv.innerHTML = synthesisText.value;
+          }
+        }
+      }, 50);
+
+      // updateVoiceListButton.addEventListener("click", function () {
+      //   var request = new XMLHttpRequest();
+      //   request.open('GET',
+      //           'https://' + "westus" + ".tts.speech." +
+      //           ("westus".startsWith("china") ? "azure.cn" : "microsoft.com") +
+      //                   "/cognitiveservices/voices/list", true);
+      //   if (authorizationToken) {
+      //     request.setRequestHeader("Authorization", "Bearer " + authorizationToken);
+      //   } else {
+      //     if ("4ab06069885845d395d69e85ddd51cba" === "" || "4ab06069885845d395d69e85ddd51cba" === "subscription") {
+      //       alert("Please enter your Microsoft Cognitive Services Speech subscription key!");
+      //       return;
+      //     }
+      //     request.setRequestHeader("Ocp-Apim-Subscription-Key", "4ab06069885845d395d69e85ddd51cba");
+      //   }
+      //
+      //   request.onload = function() {
+      //     if (request.status >= 200 && request.status < 400) {
+      //       const response = this.response;
+      //       const defaultVoice = "JennyNeural";
+      //       let selectId;
+      //       const data = JSON.parse(response);
+      //       voiceOptions.innerHTML = "";
+      //       data.forEach((voice, index) => {
+      //         voiceOptions.innerHTML += "<option value=\"" + voice.Name + "\">" + voice.Name + "</option>";
+      //         if (voice.Name.indexOf(defaultVoice) > 0) {
+      //           selectId = index;
+      //         }
+      //       });
+      //       voiceOptions.selectedIndex = selectId;
+      //       voiceOptions.disabled = false;
+      //     } else {
+      //       window.console.log(this);
+      //       //eventsDiv.innerHTML += "cannot get voice list, code: " + this.status + " detail: " + this.statusText + "\r\n";
+      //     }
+      //   };
+      //
+      //   request.send()
+      // });
+
+      // pauseButton.addEventListener("click", function () {
+      //   player.pause();
+      //   pauseButton.disabled = true;
+      //   resumeButton.disabled = false;
+      // });
+
+
+      // resumeButton.addEventListener("click", function () {
+      //   player.resume();
+      //   pauseButton.disabled = false;
+      //   resumeButton.disabled = true;
+      // });
+
+      startSynthesisAsyncButton.addEventListener("click", function () {
+
+        wordBoundaryList = [];
+
+        fetchText();
+
+      });
+
+      Initialize(async function (speechSdk) {
+        SpeechSDK = speechSdk;
+        startSynthesisAsyncButton.disabled = false;
+        Object.keys(SpeechSDK.SpeechSynthesisOutputFormat).forEach(format => {
+          if (isNaN(format) && !format.includes('Siren')) {
+            // formatOptions.innerHTML += "<option value=\"" + SpeechSDK.SpeechSynthesisOutputFormat[format] + "\">" + format + "</option>"
+          }}
+        );
+        // formatOptions.selectedIndex = SpeechSDK.SpeechSynthesisOutputFormat.Audio24Khz48KBitRateMonoMp3;
+
+        // in case we have a function for getting an authorization token, call it.
+        if (typeof RequestAuthorizationToken === "function") {
+           await RequestAuthorizationToken();
+        }
+
+      });
+
+      const complete_cb = function (result) {
+
+          window.console.log(result);
+          synthesizer.close();
+          synthesizer = undefined;
+        };
+        const err_cb = function (err) {
+          startSynthesisAsyncButton.disabled = false;
+          downloadButton.disabled = false;
+          phraseDiv.innerHTML += err;
+          window.console.log(err);
+          synthesizer.close();
+          synthesizer = undefined;
+        };
+
+        var speechConfig;
+
+        speechConfig = SpeechSDK.SpeechConfig.fromSubscription("66e477bdd562461d81b2308d43603c8c", "eastasia");
+        //speechConfig = SpeechSDK.SpeechConfig.fromSubscription("66e477bdd562461d81b2308d43603c8c", "eastasia");
+
+        // amber  声线  声音在这改
+        speechConfig.speechSynthesisVoiceName = "Microsoft Server Speech Text to Speech Voice (zh-CN, XiaoXiaoNeural)";
+        speechConfig.speechSynthesisOutputFormat = "8";
+
+
+
+
+        function fetchText(){
+            var xhr= new XMLHttpRequest();
+            xhr.open("get", "/mp3", true);
+            xhr.send();
+            xhr.onload = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // 4 = "loaded" && 200 =  ok
+                    console.log(xhr)
+                    console.log(xhr.response)
+                    speakText(xhr.response)
+                }
+             }
+
+        }
+
+        function pause(){
+            var xhr= new XMLHttpRequest();
+            xhr.open("get", "/mp3", true);
+            xhr.send();
+            xhr.onload = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // 4 = "loaded" && 200 =  ok
+                    console.log(xhr)
+                    console.log(xhr.response)
+                    speakText(xhr.response)
+                }
+             }
+
+        }
+
+
+
+        function speakText(text){
+            player = new SpeechSDK.SpeakerAudioDestination();
+        player.onAudioStart = function(_) {
+          window.console.log("playback started");
+          setTimeout(function(){ $("svg path :first-child").each( function(i) {this.beginElement();}); }, 0.5);
+        }
+        player.onAudioEnd = function (_) {
+          window.console.log("playback finished");
+          startSynthesisAsyncButton.disabled = false;
+          wordBoundaryList = [];
+
+          fetchText();
+        };
+
+        var audioConfig  = SpeechSDK.AudioConfig.fromSpeakerOutput(player);
+
+        synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig, audioConfig);
+
+        // The event synthesizing signals that a synthesized audio chunk is received.
+        // You will receive one or more synthesizing events as a speech phrase is synthesized.
+        // You can use this callback to streaming receive the synthesized audio.
+        synthesizer.synthesizing = function (s, e) {
+          window.console.log(e);
+          //eventsDiv.innerHTML += "(synthesizing) Reason: " + SpeechSDK.ResultReason[e.result.reason] +
+                 // "Audio chunk length: " + e.result.audioData.byteLength + "\r\n";
+        };
+
+        // The synthesis started event signals that the synthesis is started.
+        synthesizer.synthesisStarted = function (s, e) {
+            console.log("syn start")
+          window.console.log(e);
+          //eventsDiv.innerHTML += "(synthesis started)" + "\r\n";
+          //pauseButton.disabled = false;
+        };
+
+        // The event synthesis completed signals that the synthesis is completed.
+        synthesizer.synthesisCompleted = function (s, e) {
+          console.log(e);
+          //eventsDiv.innerHTML += "(synthesized)  Reason: " + SpeechSDK.ResultReason[e.result.reason] +
+                  " Audio length: " + e.result.audioData.byteLength + "\r\n";
+        };
+
+        // The event signals that the service has stopped processing speech.
+        // This can happen when an error is encountered.
+        synthesizer.SynthesisCanceled = function (s, e) {
+          const cancellationDetails = SpeechSDK.CancellationDetails.fromResult(e.result);
+          let str = "(cancel) Reason: " + SpeechSDK.CancellationReason[cancellationDetails.reason];
+          if (cancellationDetails.reason === SpeechSDK.CancellationReason.Error) {
+            str += ": " + e.result.errorDetails;
+          }
+          window.console.log(e);
+          //eventsDiv.innerHTML += str + "\r\n";
+          startSynthesisAsyncButton.disabled = false;
+          downloadButton.disabled = false;
+          pauseButton.disabled = true;
+          resumeButton.disabled = true;
+        };
+
+        // This event signals that word boundary is received. This indicates the audio boundary of each word.
+        // The unit of e.audioOffset is tick (1 tick = 100 nanoseconds), divide by 10,000 to convert to milliseconds.
+        synthesizer.wordBoundary = function (s, e) {
+          window.console.log(e);
+          //eventsDiv.innerHTML += "(WordBoundary), Text: " + e.text + ", Audio offset: " + e.audioOffset / 10000 + "ms." + "\r\n";
+          wordBoundaryList.push(e);
+        };
+
+        synthesizer.visemeReceived = function (s, e) {
+          window.console.log(e);
+          //eventsDiv.innerHTML += "(Viseme), Audio offset: " + e.audioOffset / 10000 + "ms. Viseme ID: " + e.visemeId + '\n';
+          talkingHeadDiv.innerHTML = e.animation.replaceAll("begin=\"0.5s\"", "begin=\"indefinite\"");
+          $("svg").width('500px').height('500px');
+
+        }
+
+        synthesizer.bookmarkReached = function (s, e) {
+          window.console.log(e);
+          //eventsDiv.innerHTML +=  "(Bookmark reached), Audio offset: " + e.audioOffset / 10000 + "ms. Bookmark text: " + e.text + '\n';
+        }
+
+        startSynthesisAsyncButton.disabled = true;
+
+          synthesizer.speakTextAsync(text,
+                  complete_cb,
+                  err_cb);
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

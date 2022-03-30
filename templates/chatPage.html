@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue自动对话聊天窗口特效</title>
+
+    <link rel="stylesheet" href="../static/chatPage/style.css">
+    <script src="../static/chatPage/jquery.js"></script>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div id="app" class="container">
+    <div id="wrapper" class="chat-wrapper">
+        <bubble
+                v-for="content in contents"
+                v-bind:bubbtext="content.text"
+                v-bind:class="content.isUser ? 'bubble-right' : 'bubble-left'"
+        >
+        </bubble>
+        <div v-show="isTyping" class="bubble bubble-right bubble-thinking">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+        <div v-show="isThinking" class="bubble bubble-left bubble-thinking">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+
+        <p v-if="noResponses" class="small disabled">User has left the chat. ☹️</p>
+    </div>
+
+
+
+    <div class="chat-input">
+        <input
+                v-on:keyup.enter="addToChat"
+                v-model="newMessage"
+                type="text"
+                name="chatText"
+                id="chatText"
+                class="input-control input-text"
+                placeholder="Type a message"
+        />
+        <button v-on:click="addToChat" class="input-control input-button">Send</button>
+    </div>
+    
+    <div>
+        <audio class="audio" src="826.wav"></audio>
+    </div>
+</div>
+
+
+<!-- partial -->
+<script src='../static/chatPage/vue.min.js'></script>
+<script src="../static/chatPage/script.js"></script>
+
+
+</body>
+</html>
