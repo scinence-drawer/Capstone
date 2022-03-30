@@ -75,3 +75,5 @@ function moveChat() {
     const wrap = document.getElementById('wrapper');
     wrap.scrollTop = wrap.scrollHeight;
 }
+
+
