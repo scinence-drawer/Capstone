@@ -102,9 +102,11 @@
             </div>
         </div>
         <div class="video-call-actions ">
-            <button class="video-action-button mic" id="fang"></button>
-            <button class="video-action-button camera"></button>
-            <button class="video-action-button maximize" id="unity-fullscreen-button"></button>
+            <div id="sub-container">
+                <button class="video-action-button mic" id="fang"></button>
+                <button class="video-action-button camera"></button>
+                <button class="video-action-button maximize" id="unity-fullscreen-button"></button>
+            </div>
         </div>
     </div>
     <div class="right-side">
@@ -117,7 +119,6 @@
                 <path d="M15 9l-6 6M9 9l6 6"></path>
             </svg>
         </button>
-
         <div class="ui-wrapper">
             <div id="app" class="container">
                 <div id="chat-wrapper" class="chat-wrapper">
@@ -137,7 +138,6 @@
                         <span class="dot"></span>
                         <span class="dot"></span>
                     </div>
-
                     <p v-if="noResponses" class="small disabled">User has left the chat. ☹️</p>
                 </div>
                 <div class="chat-typing-area-wrapper">
@@ -176,6 +176,7 @@
 <script src="../static/js/script.js"></script>
 <script src='../static/chatPage/vue.min.js'></script>
 <script src="../static/chatPage/script.js"></script>
+<script src="../static/js/capstone.js"></script>
 <script src="../static/microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
 
 
