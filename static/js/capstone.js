@@ -42,8 +42,10 @@ function Initialize(onComplete) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    startSynthesisAsyncButton = document.getElementById("fang");
-    updateVoiceListButton = document.getElementById("fang");
+    // startSynthesisAsyncButton = document.getElementById("fangz");
+    // startSynthesisAsyncButton = document.getElementById("fang");
+    updateVoiceListButton = document.getElementById("fangz");
+    // updateVoiceListButton = document.getElementById("fang");
     pauseButton = document.getElementById("pauseButton");
     resumeButton = document.getElementById("resumeButton");
     downloadButton = document.getElementById("downloadButton");
@@ -69,16 +71,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 50);
 
 
-    startSynthesisAsyncButton.addEventListener("click", function () {
-
-        wordBoundaryList = [];
-        fetchText();
-
-    });
+    // startSynthesisAsyncButton.addEventListener("click", function () {
+    //
+    //     wordBoundaryList = [];
+    //     fetchText();
+    //
+    // });
 
     Initialize(async function (speechSdk) {
         SpeechSDK = speechSdk;
-        startSynthesisAsyncButton.disabled = false;
+        // startSynthesisAsyncButton.disabled = false;
         Object.keys(SpeechSDK.SpeechSynthesisOutputFormat).forEach(format => {
                 if (isNaN(format) && !format.includes('Siren')) {
                     // formatOptions.innerHTML += "<option value=\"" + SpeechSDK.SpeechSynthesisOutputFormat[format] + "\">" + format + "</option>"
@@ -100,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
         synthesizer = undefined;
     };
     const err_cb = function (err) {
-        startSynthesisAsyncButton.disabled = false;
+        // startSynthesisAsyncButton.disabled = false;
         downloadButton.disabled = false;
         phraseDiv.innerHTML += err;
         window.console.log(err);
@@ -161,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         player.onAudioEnd = function (_) {
             window.console.log("playback finished");
-            startSynthesisAsyncButton.disabled = false;
+            // startSynthesisAsyncButton.disabled = false;
             wordBoundaryList = [];
 
             fetchText();
@@ -201,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             window.console.log(e);
             //eventsDiv.innerHTML += str + "\r\n";
-            startSynthesisAsyncButton.disabled = false;
+            // startSynthesisAsyncButton.disabled = false;
             downloadButton.disabled = false;
             pauseButton.disabled = true;
             resumeButton.disabled = true;
@@ -229,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
             window.console.log(e);
         }
 
-        startSynthesisAsyncButton.disabled = true;
+        // startSynthesisAsyncButton.disabled = true;
 
         synthesizer.speakTextAsync(text,
             complete_cb,
