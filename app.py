@@ -20,7 +20,7 @@ def index():
             temperature=0.1,
             max_tokens=100,
         )
-        # return redirect(url_for("index", result=response.choices[0].text))
+
         return response.choices[0].text
 
     result = request.args.get("result")
