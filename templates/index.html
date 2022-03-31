@@ -102,11 +102,9 @@
             </div>
         </div>
         <div class="video-call-actions ">
-            <div id="sub-container">
-                <button class="video-action-button mic" id="fang"></button>
-                <button class="video-action-button camera"></button>
-                <button class="video-action-button maximize" id="unity-fullscreen-button"></button>
-            </div>
+            <button class="video-action-button mic"></button>
+            <button class="video-action-button camera"></button>
+            <button class="video-action-button maximize" id="unity-fullscreen-button"></button>
         </div>
     </div>
     <div class="right-side">
@@ -119,9 +117,10 @@
                 <path d="M15 9l-6 6M9 9l6 6"></path>
             </svg>
         </button>
+
         <div class="ui-wrapper">
             <div id="app" class="container">
-                <div id="chat-wrapper" class="chat-wrapper">
+                <div id="wrapper" class="chat-wrapper">
                     <bubble
                             v-for="content in contents"
                             v-bind:bubbtext="content.text"
@@ -138,6 +137,7 @@
                         <span class="dot"></span>
                         <span class="dot"></span>
                     </div>
+
                     <p v-if="noResponses" class="small disabled">User has left the chat. ☹️</p>
                 </div>
                 <div class="chat-typing-area-wrapper">
@@ -176,12 +176,7 @@
 <script src="../static/js/script.js"></script>
 <script src='../static/chatPage/vue.min.js'></script>
 <script src="../static/chatPage/script.js"></script>
-<script src="../static/js/capstone.js"></script>
-<script src="../static/microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
-
-
 <script>
-    var myUnityInstance = null;
     var buildUrl = "{{ url_for('static', filename='Build') }}";
     var loaderUrl = buildUrl + "/Project-Test.loader.js";
     var config = {
@@ -229,7 +224,6 @@
         createUnityInstance(canvas, config, (progress) => {
             progressBarFull.style.width = 100 * progress + "%";
         }).then((unityInstance) => {
-            myUnityInstance = unityInstance;
             loadingBar.style.display = "none";
             fullscreenButton.onclick = () => {
                 unityInstance.SetFullscreen(1);
@@ -240,8 +234,5 @@
     };
     document.body.appendChild(script);
 </script>
-
-<script src="../static/js/capstone.js"></script>
-
 </body>
 </html>
