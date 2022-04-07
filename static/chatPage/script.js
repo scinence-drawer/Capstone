@@ -201,9 +201,9 @@ function speakText(text) {
     player.onAudioStart = function (_) {
         start = new Date().getTime();
         window.console.log("playback started " + new Date().getTime());
-        console.log(transferToUnity);
+        // console.log(transferToUnity);
         // myUnityInstance.SendMessage("EventSystem", "WebTest", transferToUnity);
-        transferToUnity = "";
+        // transferToUnity = "";
         setTimeout(function () {
             $("svg path :first-child").each(function (i) {
                 this.beginElement();
@@ -271,8 +271,8 @@ function speakText(text) {
         // window.console.log(e);
         // console.log(e.privAudioOffset);
         // var real_id = 0
-        transferToUnity += voiceDictionary[e.privVisemeId] + " " + String(e.privAudioOffset) + " ";
-        myUnityInstance.SendMessage("EventSystem", "WebTest", "" + voiceDictionary[e.privVisemeId] + " " + String(e.privAudioOffset));
+        // transferToUnity += voiceDictionary[e.privVisemeId] + " " + String(e.privAudioOffset) + " ";
+        // myUnityInstance.SendMessage("EventSystem", "WebTest", "" + voiceDictionary[e.privVisemeId] + " " + String(e.privAudioOffset));
         //eventsDiv.innerHTML += "(Viseme), Audio offset: " + e.audioOffset / 10000 + "ms. Viseme ID: " + e.visemeId + '\n';
         talkingHeadDiv.innerHTML = e.animation.replaceAll("begin=\"0.5s\"", "begin=\"indefinite\"");
         $("svg").width('500px').height('500px');

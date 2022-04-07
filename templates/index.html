@@ -105,7 +105,7 @@
         <div class="video-call-actions ">
             <div id="sub-container">
                 <button class="video-action-button mic" id="fang"></button>
-                <button class="video-action-button camera"></button>
+                <button class="video-action-button camera" id="wave-hand"></button>
                 <button class="video-action-button maximize" id="unity-fullscreen-button"></button>
             </div>
         </div>
@@ -240,5 +240,14 @@
     document.body.appendChild(script);
 </script>
 <script src="../static/chatPage/script.js"></script>
+<script>
+    $("#fang").on("click",function () {
+        myUnityInstance.SendMessage("EventSystem", "WebTest", "");
+    })
+
+    $("#wave-hand").on("click",function () {
+        myUnityInstance.SendMessage("EventSystem", "WaveHand");
+    })
+</script>
 </body>
 </html>

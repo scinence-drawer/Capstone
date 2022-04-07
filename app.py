@@ -1,7 +1,9 @@
 import os
+import sys
+from os.path import dirname, abspath
 
 import openai
-from flask import Flask, redirect, render_template, request, url_for,send_file,Response
+from flask import Flask, redirect, render_template, request, url_for, send_file, Response
 import Azures
 
 import time
@@ -33,23 +35,23 @@ def index():
 
     return render_template("index.html", result=result)
 
-@app.route("/response",methods=("GET", "POST"))
-def response():
 
-    with open('./cache/outputaudio.wav','rb') as file:
-        file=Azures.Amber_voice("we are getting further and further out of our way.")
+@app.route("/response", methods=("GET", "POST"))
+def response():
+    with open('./cache/outputaudio.wav', 'rb') as file:
+        file = Azures.Amber_voice("we are getting further and further out of our way.")
 
         # file.read()
-        return send_file(file,mimetype='audio/wav')
+        return send_file(file, mimetype='audio/wav')
 
 
 @app.route('/mp3', methods=("GET", "POST"))
 def stream_mp3():
     print("Type some text that you want to speak...")
     text = input()
-    if text!='':
+    if text != '':
 
-    # fmp3 = Azures.Amber_voice("We are on our way somehow")
+        # fmp3 = Azures.Amber_voice("We are on our way somehow")
         return Response(text)
     else:
         return Response("Nothing has been input")
@@ -60,13 +62,17 @@ def audio():
     # return render_template('AudioPage.html')
     return render_template('Systhesis.html')
 
+
 @app.route('/vr')
 def hello_world():  # put application's code here
     return render_template("index.html")
 
 
 if __name__ == '__main__':
-    app.run()
+    ABSPATH = os.path.abspath(sys.argv[0])
+    ABSPATH = os.path.dirname(ABSPATH)
+    print(ABSPATH)
+    app.run('0.0.0.0', debug=True, port=8000, ssl_context=(ABSPATH+"\\cert\\7393365_www.gkyfuxczt.icu.pem", ABSPATH+"\\cert\\7393365_www.gkyfuxczt.icu.key"))
 # @app.route("/response",methods=("GET", "POST"))
 # def response(prompt):
 #
