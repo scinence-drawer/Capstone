@@ -72,7 +72,7 @@ if __name__ == '__main__':
     ABSPATH = os.path.abspath(sys.argv[0])
     ABSPATH = os.path.dirname(ABSPATH)
     print(ABSPATH)
-    app.run('0.0.0.0', debug=True, port=8000, ssl_context=(ABSPATH+"\\cert\\7393365_www.gkyfuxczt.icu.pem", ABSPATH+"\\cert\\7393365_www.gkyfuxczt.icu.key"))
+    app.run('0.0.0.0', debug=True, port=80, ssl_context=(ABSPATH+"\\cert\\7393365_www.gkyfuxczt.icu.pem", ABSPATH+"\\cert\\7393365_www.gkyfuxczt.icu.key"))
 # @app.route("/response",methods=("GET", "POST"))
 # def response(prompt):
 #
