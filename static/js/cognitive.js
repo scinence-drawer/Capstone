@@ -184,8 +184,8 @@
                 speechConfig.addTargetLanguage(languageTargetOptions.value.split("(")[1].substring(0, 5));
             }
 
-            // speechConfig.speechRecognitionLanguage = "en-US";
-            speechConfig.speechRecognitionLanguage = "zh-CN";
+            speechConfig.speechRecognitionLanguage = "en-US";
+            // speechConfig.speechRecognitionLanguage = "zh-CN";
             return speechConfig;
         }
 
@@ -459,16 +459,6 @@
 
         document.onkeydown = function (event) {
         var e = event || window.event || arguments.callee.caller.arguments[0];
-        if (e && e.keyCode == 27) {
-          // 按 Esc
-          //要做的事情
-          alert("按 esc");
-        }
-        if (e && e.keyCode == 113) {
-          // 按 F2
-          //要做的事情
-          alert("按 f2");
-        }
         if (e && e.keyCode === 13) {
           // enter 键
             if($('#chatText').val!==''){
@@ -480,8 +470,5 @@
             }
           //要做的事情
 
-        }
-        if (e.keyCode == 86 && e.ctrlKey) {
-          alert("你按下了ctrl+V");
         }
       };

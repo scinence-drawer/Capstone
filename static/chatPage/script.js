@@ -347,8 +347,7 @@ var vm = new Vue({
     methods: {
         addToChat: function () {
 
-            player.pause();
-            player= undefined;
+
 
             this.contents.push({text: this.newMessage, isUser: true});
             this.isThinking = true;
@@ -374,6 +373,15 @@ var vm = new Vue({
                 vm.newMessage = "";
             }
             a(this);
+
+            if(player){
+
+                player.pause();
+                player= undefined;
+            }
+
+
+
 
 
         },
