@@ -5,12 +5,14 @@ var updateVoiceListButton;
 
 // subscription key and region for speech services.
 var subscriptionKey, regionOptions;
+var playbackcount=0;
 var authorizationToken;
 var voiceOptions, isSsml;
 var SpeechSDK;
 var synthesisText;
 var synthesizer;
 var player;
+var usespeechinput=false;
 var wordBoundaryList = [];
 // var voiceDictionary=[[3,4,7,8,10],[15,17,18],[6,13,14,16,19,20],[1,2,9,11,21],[5,12],[0]];
 //0:BiZui
@@ -216,6 +218,18 @@ function speakText(text) {
         // startSynthesisAsyncButton.disabled = false;
         wordBoundaryList = [];
 
+        if(playbackcount===0){
+            userPermission.disabled=false;
+
+
+        }
+        if(playbackcount>0 && userPermissionbool===true){
+            doContinuousRecognition();
+        }
+        playbackcount++;
+
+
+
         // fetchText();
     };
 
@@ -333,6 +347,9 @@ var vm = new Vue({
     methods: {
         addToChat: function () {
 
+            player.pause();
+            player= undefined;
+
             this.contents.push({text: this.newMessage, isUser: true});
             this.isThinking = true;
             // console.log(this.newMessage);
@@ -376,9 +393,17 @@ function moveChat() {
     wrap.scrollTop = wrap.scrollHeight;
 }
 
+userPermission.disabled=true;
+
 
 // setTimeout(function (){alert('一眼丁真')},5000);
 setTimeout(function () {
-    speakText("Hello,How's it going?")
+    speakText("Hello,How's it going?");
+    userPermission.disabled=false;
+    alert('一眼丁真');
+    setTimeout(function (){
+        playbackcount++;
+
+    },4000)
 }, 6000);
 
