@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="../static/chatPage/style.css">
     <link rel="shortcut icon" href="../static/TemplateData/favicon.ico">
     <link rel="stylesheet" href="{{ url_for('static', filename='TemplateData/style.css') }}">
+    <link rel="stylesheet" href="../static/css/driver.min.css">
     <link href="https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap" rel="stylesheet">
     <script>
         let transferToUnity = "";
-        var start=0;
+        var start = 0;
     </script>
 </head>
 <body>
@@ -30,14 +31,14 @@
     </button>
     <div class="left-side">
         <div class="navigation">
-            <a href="#" class="nav-link icon">
+            <a href="/" class="nav-link icon">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
                      stroke-linecap="round" stroke-linejoin="round" class="feather feather-home" viewBox="0 0 24 24">
                     <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
                     <path d="M9 22V12h6v10"/>
                 </svg>
             </a>
-            <a href="#" class="nav-link icon">
+            <a href="/about-us" class="nav-link icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                      class="feather feather-message-square">
@@ -61,7 +62,7 @@
                     <line x1="10" y1="16" x2="10.01" y2="16"/>
                 </svg>
             </a>
-            <a href="#" class="nav-link icon">
+            <a href="#" class="nav-link icon" id="guide">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                      class="feather feather-users">
@@ -144,7 +145,6 @@
                 <div class="chat-typing-area-wrapper">
                     <div class="chat-input">
                         <input
-                                v-on:keyup.enter="addToChat"
                                 v-model="newMessage"
                                 type="text"
                                 name="chatText"
@@ -173,12 +173,11 @@
         </svg>
     </button>
 </div>
+
 <script src='../static/js/jquery.min.js'></script>
 <script src="../static/js/script.js"></script>
 <script src='../static/chatPage/vue.min.js'></script>
 <script src="../static/microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
-
-
 <script>
     var myUnityInstance = null;
     var buildUrl = "{{ url_for('static', filename='Build') }}";
@@ -192,7 +191,6 @@
         productName: "off-axis-projection",
         productVersion: "0.1",
     };
-
     var container = document.querySelector("#unity-container");
     var canvas = document.querySelector("#unity-canvas");
     var loadingBar = document.querySelector("#unity-loading-bar");
@@ -240,14 +238,78 @@
     document.body.appendChild(script);
 </script>
 <script src="../static/chatPage/script.js"></script>
+<script src="../static/js/driver.min.js"></script>
 <script>
-    $("#fang").on("click",function () {
+    $("#fang").on("click", function () {
         myUnityInstance.SendMessage("EventSystem", "WebTest", "");
     })
 
-    $("#wave-hand").on("click",function () {
+    $("#wave-hand").on("click", function () {
         myUnityInstance.SendMessage("EventSystem", "WaveHand");
     })
+
+    $("#guide").on("click", function () {
+        setTimeout(() => {
+            driver.start()
+        })
+    })
+</script>
+<script>
+    const driver = new Driver({
+        doneBtnText: 'Finished', // 结束按钮的文字
+        stageBackground: '#ffffff', // 突出显示元素的背景颜色
+        nextBtnText: 'Next', // 下一步按钮的文字
+        prevBtnText: 'Previous', // 上一步按钮的文字
+        closeBtnText: 'Close', // 关闭按钮的文字
+        onHighlightStarted: Element => {
+        }, // 元素即将突出显示时调用
+        onHighlighted: Element => {
+        }, // 元素完全突出显示时调用
+        onDeselected: Element => {
+        }, // 取消选择元素时调用
+        onReset: Element => {
+        }, // 当要清除叠加时调用
+        onNext: Element => {
+        }, // 在任何步骤中移动到下一步时调用
+        onPrevious: Element => {
+        } // 在任何步骤中移动到上一步时调用
+    });
+
+    const steps = [
+        {
+            element: '#unity-canvas',
+            popover: {
+                title: 'Fish Tank VR',
+                description: 'Hi, Welcome to our website, you can see whatever you want without wearing any VR equipment!',
+                position: 'right' // 可选 `top`, `left`, `right`, `bottom`
+            }
+        },
+        {
+            element: '#sub-container',
+            popover: {
+                title: 'Function Button',
+                description: 'You can adjust the basic functions here, including voice generation and full screen!',
+                position: 'top' // 可选 `top`, `left`, `right`, `bottom`
+            }
+        },
+        {
+            element: '.right-side',
+            popover: {
+                title: 'Chat Box',
+                description: 'You can chat with me by typing the question you want to ask!',
+                position: 'left' // 可选 `top`, `left`, `right`, `bottom`
+            }
+        },
+        {
+            element: '.navigation',
+            popover: {
+                title: 'Main Menu',
+                description: 'You can access other pages here!',
+                position: 'right' // 可选 `top`, `left`, `right`, `bottom`
+            }
+        },
+    ]
+    driver.defineSteps(steps)
 </script>
 </body>
 </html>

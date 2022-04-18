@@ -1,12 +1,10 @@
 import os
 import sys
-from os.path import dirname, abspath
 
 import openai
-from flask import Flask, redirect, render_template, request, url_for, send_file, Response
-import Azures
+from flask import Flask, render_template, request, send_file, Response
 
-import time
+import Azures
 
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -68,11 +66,17 @@ def hello_world():  # put application's code here
     return render_template("index.html")
 
 
+@app.route('/about-us')
+def about_us():  # put application's code here
+    return render_template("about_us.html")
+
+
 if __name__ == '__main__':
     ABSPATH = os.path.abspath(sys.argv[0])
     ABSPATH = os.path.dirname(ABSPATH)
     print(ABSPATH)
-    app.run('0.0.0.0', debug=True, port=80, ssl_context=(ABSPATH+"\\cert\\7393365_www.gkyfuxczt.icu.pem", ABSPATH+"\\cert\\7393365_www.gkyfuxczt.icu.key"))
+    app.run('0.0.0.0', debug=True, port=80, ssl_context=(
+        ABSPATH + "\\cert\\7393365_www.gkyfuxczt.icu.pem", ABSPATH + "\\cert\\7393365_www.gkyfuxczt.icu.key"))
 # @app.route("/response",methods=("GET", "POST"))
 # def response(prompt):
 #
