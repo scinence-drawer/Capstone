@@ -222,6 +222,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // console.log(e.privAudioOffset);
             // myUnityInstance.SendMessage("", "", e.privAudioOffset);
             transferToUnity = String(e.privAudioOffset) + " " + String(e.privVisemeId)
+            console.log(transferToUnity);
             //eventsDiv.innerHTML += "(Viseme), Audio offset: " + e.audioOffset / 10000 + "ms. Viseme ID: " + e.visemeId + '\n';
             talkingHeadDiv.innerHTML = e.animation.replaceAll("begin=\"0.5s\"", "begin=\"indefinite\"");
             $("svg").width('500px').height('500px');

@@ -5,12 +5,14 @@ var updateVoiceListButton;
 
 // subscription key and region for speech services.
 var subscriptionKey, regionOptions;
+var playbackcount=0;
 var authorizationToken;
 var voiceOptions, isSsml;
 var SpeechSDK;
 var synthesisText;
 var synthesizer;
 var player;
+var usespeechinput=false;
 var wordBoundaryList = [];
 // var voiceDictionary=[[3,4,7,8,10],[15,17,18],[6,13,14,16,19,20],[1,2,9,11,21],[5,12],[0]];
 //0:BiZui
@@ -201,6 +203,7 @@ function speakText(text) {
     player.onAudioStart = function (_) {
         start = new Date().getTime();
         window.console.log("playback started " + new Date().getTime());
+        myUnityInstance.SendMessage("EventSystem", "WebTest", transferToUnity);
         // console.log(transferToUnity);
         // myUnityInstance.SendMessage("EventSystem", "WebTest", transferToUnity);
         // transferToUnity = "";
@@ -215,6 +218,18 @@ function speakText(text) {
         console.log(new Date().getTime() - start)
         // startSynthesisAsyncButton.disabled = false;
         wordBoundaryList = [];
+
+        if(playbackcount===0){
+            userPermission.disabled=false;
+
+
+        }
+        if(playbackcount>0 && userPermissionbool===true){
+            doContinuousRecognition();
+        }
+        playbackcount++;
+
+
 
         // fetchText();
     };
@@ -274,6 +289,10 @@ function speakText(text) {
         // transferToUnity += voiceDictionary[e.privVisemeId] + " " + String(e.privAudioOffset) + " ";
         // myUnityInstance.SendMessage("EventSystem", "WebTest", "" + voiceDictionary[e.privVisemeId] + " " + String(e.privAudioOffset));
         //eventsDiv.innerHTML += "(Viseme), Audio offset: " + e.audioOffset / 10000 + "ms. Viseme ID: " + e.visemeId + '\n';
+
+
+        transferToUnity = String(e.privAudioOffset) + " " + String(e.privVisemeId)
+        console.log(transferToUnity);
         talkingHeadDiv.innerHTML = e.animation.replaceAll("begin=\"0.5s\"", "begin=\"indefinite\"");
         $("svg").width('500px').height('500px');
     }
@@ -333,6 +352,8 @@ var vm = new Vue({
     methods: {
         addToChat: function () {
 
+
+
             this.contents.push({text: this.newMessage, isUser: true});
             this.isThinking = true;
             // console.log(this.newMessage);
@@ -358,6 +379,15 @@ var vm = new Vue({
             }
             a(this);
 
+            if(player){
+
+                player.pause();
+                player= undefined;
+            }
+
+
+
+
 
         },
         addNewResponse: function () {
@@ -376,9 +406,17 @@ function moveChat() {
     wrap.scrollTop = wrap.scrollHeight;
 }
 
+userPermission.disabled=true;
+
 
 // setTimeout(function (){alert('一眼丁真')},5000);
 setTimeout(function () {
-    speakText("Hello,How's it going?")
+    speakText("Hello,How's it going?");
+    userPermission.disabled=false;
+    // alert('一眼丁真');
+    setTimeout(function (){
+        playbackcount++;
+
+    },4000)
 }, 6000);
 
