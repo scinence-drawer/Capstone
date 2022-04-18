@@ -203,6 +203,7 @@ function speakText(text) {
     player.onAudioStart = function (_) {
         start = new Date().getTime();
         window.console.log("playback started " + new Date().getTime());
+        myUnityInstance.SendMessage("EventSystem", "WebTest", transferToUnity);
         // console.log(transferToUnity);
         // myUnityInstance.SendMessage("EventSystem", "WebTest", transferToUnity);
         // transferToUnity = "";
@@ -288,6 +289,10 @@ function speakText(text) {
         // transferToUnity += voiceDictionary[e.privVisemeId] + " " + String(e.privAudioOffset) + " ";
         // myUnityInstance.SendMessage("EventSystem", "WebTest", "" + voiceDictionary[e.privVisemeId] + " " + String(e.privAudioOffset));
         //eventsDiv.innerHTML += "(Viseme), Audio offset: " + e.audioOffset / 10000 + "ms. Viseme ID: " + e.visemeId + '\n';
+
+
+        transferToUnity = String(e.privAudioOffset) + " " + String(e.privVisemeId)
+        console.log(transferToUnity);
         talkingHeadDiv.innerHTML = e.animation.replaceAll("begin=\"0.5s\"", "begin=\"indefinite\"");
         $("svg").width('500px').height('500px');
     }
@@ -408,7 +413,7 @@ userPermission.disabled=true;
 setTimeout(function () {
     speakText("Hello,How's it going?");
     userPermission.disabled=false;
-    alert('一眼丁真');
+    // alert('一眼丁真');
     setTimeout(function (){
         playbackcount++;
 
