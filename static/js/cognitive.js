@@ -184,8 +184,8 @@
                 speechConfig.addTargetLanguage(languageTargetOptions.value.split("(")[1].substring(0, 5));
             }
 
-            speechConfig.speechRecognitionLanguage = "en-US";
-            // speechConfig.speechRecognitionLanguage = "zh-CN";
+            // speechConfig.speechRecognitionLanguage = "en-US";
+            speechConfig.speechRecognitionLanguagegnitionLanguage = "zh-CN";
             return speechConfig;
         }
 
