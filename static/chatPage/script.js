@@ -164,7 +164,7 @@ speechConfig = SpeechSDK.SpeechConfig.fromSubscription("66e477bdd562461d81b2308d
 //speechConfig = SpeechSDK.SpeechConfig.fromSubscription("66e477bdd562461d81b2308d43603c8c", "eastasia");
 
 // amber  声线  声音在这改
-speechConfig.speechSynthesisVoiceName = "Microsoft Server Speech Text to Speech Voice (zh-CN, XiaoXiaoNeural)";
+speechConfig.speechSynthesisVoiceName = "Microsoft Server Speech Text to Speech Voice (en-US, BrandonNeural)";
 speechConfig.speechSynthesisOutputFormat = "8";
 
 function fetchText() {
@@ -203,10 +203,10 @@ function speakText(text) {
     player.onAudioStart = function (_) {
         start = new Date().getTime();
         window.console.log("playback started " + new Date().getTime());
+
         myUnityInstance.SendMessage("EventSystem", "WebTest", transferToUnity);
-        // console.log(transferToUnity);
-        // myUnityInstance.SendMessage("EventSystem", "WebTest", transferToUnity);
-        // transferToUnity = "";
+        console.log(transferToUnity);
+        transferToUnity = "";
         setTimeout(function () {
             $("svg path :first-child").each(function (i) {
                 this.beginElement();
@@ -291,10 +291,10 @@ function speakText(text) {
         //eventsDiv.innerHTML += "(Viseme), Audio offset: " + e.audioOffset / 10000 + "ms. Viseme ID: " + e.visemeId + '\n';
 
 
-        transferToUnity = String(e.privAudioOffset) + " " + String(e.privVisemeId)
-        console.log(transferToUnity);
-        talkingHeadDiv.innerHTML = e.animation.replaceAll("begin=\"0.5s\"", "begin=\"indefinite\"");
-        $("svg").width('500px').height('500px');
+        transferToUnity = String(e.privAudioOffset) + " " + String(e.privVisemeId);
+        // console.log(transferToUnity);
+        // talkingHeadDiv.innerHTML = e.animation.replaceAll("begin=\"0.5s\"", "begin=\"indefinite\"");
+        // $("svg").width('500px').height('500px');
     }
 
     synthesizer.bookmarkReached = function (s, e) {
@@ -337,6 +337,7 @@ var vm = new Vue({
         isTyping: false,
         isThinking: false,
         newMessage: '',
+        allMessage:"Friend: Are you my best friends?\nYou: Of course.",
         resMessage: "",
         contents: [],
 
@@ -352,21 +353,19 @@ var vm = new Vue({
     methods: {
         addToChat: function () {
 
-
-
             this.contents.push({text: this.newMessage, isUser: true});
             this.isThinking = true;
-            // console.log(this.newMessage);
+            this.allMessage += "\nFriend:"+this.newMessage+"\nYou:";
             var a = function (vm) {
-
 
                 $.post("/",
                     {
-                        animal: vm.newMessage,
+                        animal: vm.allMessage,
                     },
                     function (data, status) {
                         if (data !== '') {
                             vm.resMessage = data;
+                            vm.allMessage += data;
                             // console.log(data);
                             speakText(data);
                             vm.addNewResponse();
@@ -375,6 +374,8 @@ var vm = new Vue({
                             // setTimeout(vm.addNewResponse(), 100);
                         }
                     });
+                // console.log(vm.allMessage);
+
                 vm.newMessage = "";
             }
             a(this);
@@ -413,7 +414,6 @@ userPermission.disabled=true;
 setTimeout(function () {
     speakText("Hello,How's it going?");
     userPermission.disabled=false;
-    // alert('一眼丁真');
     setTimeout(function (){
         playbackcount++;
 

@@ -8,17 +8,20 @@ import Azures
 
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
-
-
 @app.route("/", methods=("GET", "POST"))
 def index():
     if request.method == "POST":
         animal = request.form["animal"]
+
         response = openai.Completion.create(
-            engine="text-davinci-001",
+            engine="text-davinci-002",
             prompt=animal,
-            temperature=0.1,
-            max_tokens=100,
+            temperature=0.5,
+            max_tokens=60,
+            top_p=1.0,
+            frequency_penalty=0.5,
+            presence_penalty=0.0,
+            stop=["You:"]
         )
         # text = "To let our customers to more involved in the interaction, I want to let them hear my voice. Thus, " \
         #        "You can hear my response on our website freely. The function is based on the azure voice studio. " \
@@ -63,20 +66,23 @@ def audio():
 
 @app.route('/vr')
 def hello_world():  # put application's code here
-    return render_template("index.html")
+    return render_template("azure_js.html")
 
 
 @app.route('/about-us')
 def about_us():  # put application's code here
     return render_template("about_us.html")
 
-
+#
 if __name__ == '__main__':
+    # print(ABSPATH)
+    # app.run()
+
     ABSPATH = os.path.abspath(sys.argv[0])
     ABSPATH = os.path.dirname(ABSPATH)
-    print(ABSPATH)
-    app.run('0.0.0.0', debug=True, port=80, ssl_context=(
-        ABSPATH + "\\cert\\7393365_www.gkyfuxczt.icu.pem", ABSPATH + "\\cert\\7393365_www.gkyfuxczt.icu.key"))
+    app.run('0.0.0.0', debug=True, port=80, a={1:"2"}, ssl_context=(
+    ABSPATH + "\\cert\\7393365_www.gkyfuxczt.icu.pem", ABSPATH + "\\cert\\7393365_www.gkyfuxczt.icu.key"))
+
 # @app.route("/response",methods=("GET", "POST"))
 # def response(prompt):
 #
