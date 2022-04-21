@@ -76,7 +76,6 @@ function ChangeUseableCondition() {
         } else {
             userPermissionbool = false;
         }
-
     } else {
         userPermissionbool = true;
         userPermission.disabled = true;
@@ -86,13 +85,13 @@ function ChangeUseableCondition() {
 }
 
 function toMutePng() {
-    $("#fang").removeClass("fa-microphone-slash")
-    $("#fang").addClass("fa-microphone")
+    $("#fang").removeClass("fa-microphone")
+    $("#fang").addClass("fa-microphone-slash")
 }
 
 function toSpeakPng() {
+    $("#fang").removeClass("fa-microphone-slash")
     $("#fang").addClass("fa-microphone")
-    $("#fang").addClass("fa-microphone-slash")
 }
 
 function doContinuousRecognition() {

@@ -161,7 +161,7 @@
                         <p v-if="noResponses" class="small disabled">User has left the chat. ☹️</p>
                     </div>
                     <div class="chat-typing-area-wrapper">
-                        <button class="video-action-button mic fa fa-microphone fa-lg" id="fang"
+                        <button class="video-action-button mic fa fa-microphone-slash fa-lg" id="fang"
                                 style="position: relative;right: 21px;bottom: -60px"></button>
                         <div class="chat-input">
                             <textarea
@@ -372,8 +372,9 @@
 <script>
     $(window).on("load", function () {
         setTimeout(function () {
-            $(".loading-container")
-                .css('display', "none")
+            $(".loading-container").fadeOut(1000, function () {
+                this.css('display', "none")
+            });
             $("#home-container")
                 .css('display', "inline")
         }, 5000);
