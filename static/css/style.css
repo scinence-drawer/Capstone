@@ -329,7 +329,8 @@ a {
 
 .app-main {
     flex: 1;
-    margin: 72px auto;
+    top: 20px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -422,7 +423,7 @@ a {
     width: 48px;
     cursor: pointer;
     outline: none;
-    background-color: var(--button-bg);
+    /*background-color: var(--button-bg);*/
 }
 
 .video-action-button.mic {
