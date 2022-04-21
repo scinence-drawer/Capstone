@@ -121,7 +121,6 @@
                 <div id="sub-container">
                     <button class="video-action-button fa fa-bell-slash-o fa-lg" id="cogni"
                             onclick="StopPlayback()"></button>
-                    <button class="video-action-button fa fa-hand-paper-o fa-lg" id="wave-hand"></button>
                     <button class="video-action-button fa fa-map-o fa-lg" id="guide"></button>
                     <a href="/about-us">
                         <button class="video-action-button fa fa-group fa-lg" id="about-us"></button>
@@ -272,9 +271,9 @@
         // doContinuousRecognition();*/
     })
 
-    $("#wave-hand").on("click", function () {
-        myUnityInstance.SendMessage("EventSystem", "WaveHand");
-    })
+    // $("#wave-hand").on("click", function () {
+    //     myUnityInstance.SendMessage("EventSystem", "WaveHand");
+    // })
 
     $("#guide").on("click", function () {
         setTimeout(() => {
@@ -327,14 +326,14 @@
                 position: 'top' // 可选 `top`, `left`, `right`, `bottom`
             }
         },
-        {
-            element: '#wave-hand',
-            popover: {
-                title: 'Wave Hand',
-                description: 'Click here and he will greet you kindly!',
-                position: 'top' // 可选 `top`, `left`, `right`, `bottom`
-            }
-        },
+        // {
+        //     element: '#wave-hand',
+        //     popover: {
+        //         title: 'Wave Hand',
+        //         description: 'Click here and he will greet you kindly!',
+        //         position: 'top' // 可选 `top`, `left`, `right`, `bottom`
+        //     }
+        // },
         {
             element: '#guide',
             popover: {
