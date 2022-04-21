@@ -119,7 +119,7 @@
             </div>
             <div class="video-call-actions">
                 <div id="sub-container">
-                    <button class="video-action-button fa fa-bell-slash-o fa-lg" id="cogni"
+                    <button class="video-action-button fa fa-bell-slash-o fa-lg"
                             onclick="StopPlayback()"></button>
                     <button class="video-action-button fa fa-map-o fa-lg" id="guide"></button>
                     <a href="/about-us">
@@ -267,8 +267,14 @@
 <script src="../static/js/driver.min.js"></script>
 <script>
     $("#fang").on("click", function () {
-        ChangeUseableCondition();/*
+        ChangeUseableCondition();
+
+        /*
+
         // doContinuousRecognition();*/
+        // $('#fang').disabled();
+        // alert("多行注释");
+
     })
 
     // $("#wave-hand").on("click", function () {

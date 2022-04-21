@@ -218,13 +218,16 @@ function speakText(text) {
         console.log(new Date().getTime() - start)
         // startSynthesisAsyncButton.disabled = false;
         wordBoundaryList = [];
+            document.getElementById("fang").disabled=false;
 
         if(playbackcount===0){
-            userPermission.disabled=false;
+            // userPermission.disabled=false;
 
 
         }
         if(playbackcount>0 && userPermissionbool===true){
+            userPermission.disabled=false;
+
             doContinuousRecognition();
         }
         playbackcount++;
@@ -407,13 +410,17 @@ function moveChat() {
     wrap.scrollTop = wrap.scrollHeight;
 }
 
-userPermission.disabled=true;
+// userPermission.disabled=true;
+document.getElementById("fang").disabled=true;
+
 
 
 // setTimeout(function (){alert('一眼丁真')},5000);
 setTimeout(function () {
     speakText("Hello,How's it going?");
-    userPermission.disabled=false;
+    // userPermission.disabled=false;
+    document.getElementById("fang").disabled=false;
+
     setTimeout(function (){
         playbackcount++;
 
