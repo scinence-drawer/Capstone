@@ -52,18 +52,18 @@ thingsToDisableDuringSession = [
 
 function StopPlayback() {
 
-        document.getElementById("fang").disabled=false;
-        player.pause();
-        player = undefined;
-        if(userPermissionbool){
-            doContinuousRecognition();
-        }else{
-            $('#chatText').val('playback stopped');
+    document.getElementById("fang").disabled = false;
+    player.pause();
+    player = undefined;
+    if (userPermissionbool) {
+        doContinuousRecognition();
+    } else {
+        $('#chatText').val('playback stopped');
 
-        setTimeout(function (){
+        setTimeout(function () {
             $('#chatText').val('');
-            vm.newMessage=''
-        },3200)
+            vm.newMessage = ''
+        }, 3200)
 
         vm.newMessage = "playback stopped";
 
@@ -71,19 +71,13 @@ function StopPlayback() {
     }
 
 
-
-
-
-
-
-
 }
 
 function zero() {
     // alert('zz');
     message = '';
-    userPermission.disabled=true;
-    document.getElementById("fang").disabled=true;
+    userPermission.disabled = true;
+    document.getElementById("fang").disabled = true;
 
     stopCogni();
 }
@@ -96,12 +90,12 @@ function ChangeUseableCondition() {
         toMutePng();
         if (cogOnGoing) {
             userPermissionbool = false;
-            if(message ===''){
+            if (message === '') {
                 $('#chatText').val('stopped..');
 
-            setTimeout(function (){
-                $('#chatText').val('');
-            },3200)
+                setTimeout(function () {
+                    $('#chatText').val('');
+                }, 3200)
             }
 
             stopCogni();
@@ -111,7 +105,7 @@ function ChangeUseableCondition() {
     } else {
         userPermissionbool = true;
         userPermission.disabled = true;
-        document.getElementById("fang").disabled=true;
+        document.getElementById("fang").disabled = true;
 
         toSpeakPng();
         doContinuousRecognition();
@@ -418,8 +412,7 @@ function onSessionStarted(sender, sessionEventArgs) {
     //statusDiv.innerHTML += `(sessionStarted) SessionId: ${sessionEventArgs.sessionId}\r\n`;
     console.log(`(sessionStarted) SessionId: ${sessionEventArgs.sessionId}\r\n`);
     userPermission.disabled = false;
-    document.getElementById("fang").disabled=false;
-
+    document.getElementById("fang").disabled = false;
 
 
     // for (const thingToDisableDuringSession of thingsToDisableDuringSession) {

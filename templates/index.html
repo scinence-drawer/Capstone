@@ -120,7 +120,7 @@
             <div class="video-call-actions">
                 <div id="sub-container">
                     <button class="video-action-button fa fa-bell-slash-o fa-lg"
-                            onclick="StopPlayback()"></button>
+                            onclick="StopPlayback()" id="mute"></button>
                     <button class="video-action-button fa fa-map-o fa-lg" id="guide"></button>
                     <a href="/about-us">
                         <button class="video-action-button fa fa-group fa-lg" id="about-us"></button>
@@ -319,13 +319,13 @@
         {
             element: '#sub-container',
             popover: {
-                title: 'Function Button',
-                description: 'You can adjust the basic functions here, including voice generation and full screen!',
+                title: 'Main Menu',
+                description: 'You can find all core functions here, including voice generation and full screen!',
                 position: 'top' // 可选 `top`, `left`, `right`, `bottom`
             }
         },
         {
-            element: '#cogni',
+            element: '#mute',
             popover: {
                 title: 'Mute Button',
                 description: 'If you want him to stop talking, please click here！',
