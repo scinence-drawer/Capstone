@@ -159,9 +159,15 @@ const err_cb = function (err) {
 };
 
 var speechConfig;
-
-speechConfig = SpeechSDK.SpeechConfig.fromSubscription("66e477bdd562461d81b2308d43603c8c", "eastasia");
+//懒狗北欧服务器
+speechConfig = SpeechSDK.SpeechConfig.fromSubscription("d854eafd081d4f8082cda731dd03dacc", "northeurope");
+// 大中华区服务器
 //speechConfig = SpeechSDK.SpeechConfig.fromSubscription("66e477bdd562461d81b2308d43603c8c", "eastasia");
+//美帝区域服务器
+// speechConfig = SpeechSDK.SpeechConfig.fromSubscription("4ab06069885845d395d69e85ddd51cba", "eastus");
+
+
+
 
 // amber  声线  声音在这改
 speechConfig.speechSynthesisVoiceName = "Microsoft Server Speech Text to Speech Voice (en-US, BrandonNeural)";
