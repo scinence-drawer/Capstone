@@ -209,25 +209,15 @@
     var myUnityInstance = null;
     var buildUrl = "{{ url_for('static', filename='Build') }}";
     var loaderUrl = buildUrl + "/Project-Test.loader.js";
-    // var config = {
-    //     dataUrl: buildUrl + "/Project-Test.data",
-    //     frameworkUrl: buildUrl + "/Project-Test.framework.js",
-    //     codeUrl: buildUrl + "/Project-Test.wasm",
-    //     streamingAssetsUrl: "{{ url_for('static', filename='StreamingAssets') }}",
-    //     companyName: "DefaultCompany",
-    //     productName: "off-axis-projection",
-    //     productVersion: "0.1",
-    // };
     var config = {
-        dataUrl: buildUrl + "/Project-Test.data.gz",
-        frameworkUrl: buildUrl + "/Project-Test.framework.js.gz",
-        codeUrl: buildUrl + "/Project-Test.wasm.gz",
+        dataUrl: buildUrl + "/Project-Test.data",
+        frameworkUrl: buildUrl + "/Project-Test.framework.js",
+        codeUrl: buildUrl + "/Project-Test.wasm",
         streamingAssetsUrl: "{{ url_for('static', filename='StreamingAssets') }}",
         companyName: "DefaultCompany",
         productName: "off-axis-projection",
         productVersion: "0.1",
     };
-
     var container = document.querySelector("#unity-container");
     var canvas = document.querySelector("#unity-canvas");
     var loadingBar = document.querySelector("#unity-loading-bar");

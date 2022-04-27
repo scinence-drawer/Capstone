@@ -11,20 +11,24 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 def index():
     if request.method == "POST":
         animal = request.form["animal"]
-        # response = openai.Completion.create(
-        #     engine="text-davinci-002",
-        #     prompt=animal,
-        #     temperature=0.5,
-        #     max_tokens=60,
-        #     top_p=1.0,
-        #     frequency_penalty=0.5,
-        #     presence_penalty=0.0,
-        #     stop=["You:"]
-        # )
-        text = "This is our first client."
-        return animal
+        response = openai.Completion.create(
+            engine="text-davinci-002",
+            prompt=animal,
+            temperature=0.5,
+            max_tokens=60,
+            top_p=1.0,
+            frequency_penalty=0.5,
+            presence_penalty=0.0,
+            stop=["You:"]
+        )
+        # text = "To let our customers to more involved in the interaction, I want to let them hear my voice. Thus, " \
+        #        "You can hear my response on our website freely. The function is based on the azure voice studio. " \
+        #        "Thus, to obtain the voice data in real-time, we maintain an external thread from the main thread in " \
+        #        "charge of sending and receiving voice packages. After the clients-side receive all packages, " \
+        #        "they will be synthesized into the voice of whole sentences and played online."
+        # return text
 
-        # return response.choices[0].text
+        return response.choices[0].text
 
     result = request.args.get("result")
 

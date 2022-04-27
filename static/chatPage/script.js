@@ -144,7 +144,7 @@ Initialize(async function (speechSdk) {
 });
 
 const complete_cb = function (result) {
-    console.log("1010101010101010")
+
     window.console.log(result);
     synthesizer.close();
     synthesizer = undefined;
@@ -174,7 +174,6 @@ speechConfig.speechSynthesisVoiceName = "Microsoft Server Speech Text to Speech 
 speechConfig.speechSynthesisOutputFormat = "8";
 
 function fetchText() {
-    console.log("9999999999999")
     var xhr = new XMLHttpRequest();
     xhr.open("get", "/mp3", true);
     xhr.send();
@@ -190,7 +189,6 @@ function fetchText() {
 }
 
 function pause() {
-    console.log("888888888888")
     var xhr = new XMLHttpRequest();
     xhr.open("get", "/mp3", true);
     xhr.send();
@@ -208,26 +206,22 @@ function pause() {
 
 function speakText(text) {
     player = new SpeechSDK.SpeakerAudioDestination();
-
     player.onAudioStart = function (_) {
         start = new Date().getTime();
-        // window.console.log("playback started " + new Date().getTime());
-        console.log("transferToUnity： "+transferToUnity)
+        window.console.log("playback started " + new Date().getTime());
+
         myUnityInstance.SendMessage("EventSystem", "WebTest", transferToUnity);
-        // console.log(transferToUnity);
+        console.log(transferToUnity);
         transferToUnity = "";
         setTimeout(function () {
             $("svg path :first-child").each(function (i) {
                 this.beginElement();
             });
         }, 0.5);
-
     }
-
     player.onAudioEnd = function (_) {
-        console.log("666666666666")
         window.console.log("playback finished " + new Date().getTime());
-        // console.log(new Date().getTime() - start)
+        console.log(new Date().getTime() - start)
         // startSynthesisAsyncButton.disabled = false;
         wordBoundaryList = [];
 
@@ -254,25 +248,18 @@ function speakText(text) {
     // You will receive one or more synthesizing events as a speech phrase is synthesized.
     // You can use this callback to streaming receive the synthesized audio.
     synthesizer.synthesizing = function (s, e) {
-        if (transferToUnity!=""){
-            console.log("Transfer to unity - extra:"+transferToUnity)
-            myUnityInstance.SendMessage("EventSystem", "WebTest", transferToUnity);
-            transferToUnity="";
-        }
-        console.log("555555555555")
+
         // window.console.log(e);
     };
 
     // The synthesis started event signals that the synthesis is started.
     synthesizer.synthesisStarted = function (s, e) {
-        console.log("4444444444")
         // console.log("syn start")
         // window.console.log(e);
     };
 
     // The event synthesis completed signals that the synthesis is completed.
     synthesizer.synthesisCompleted = function (s, e) {
-        console.log("3333333333")
         // console.log(e);
         // " Audio length: " + e.result.audioData.byteLength + "\r\n";
     };
@@ -280,7 +267,6 @@ function speakText(text) {
     // The event signals that the service has stopped processing speech.
     // This can happen when an error is encountered.
     synthesizer.SynthesisCanceled = function (s, e) {
-        console.log("22222222")
         const cancellationDetails = SpeechSDK.CancellationDetails.fromResult(e.result);
         let str = "(cancel) Reason: " + SpeechSDK.CancellationReason[cancellationDetails.reason];
         if (cancellationDetails.reason === SpeechSDK.CancellationReason.Error) {
@@ -298,9 +284,7 @@ function speakText(text) {
     // The unit of e.audioOffset is tick (1 tick = 100 nanoseconds), divide by 10,000 to convert to milliseconds.
     synthesizer.wordBoundary = function (s, e) {
 
-        console.log("wordBoundary")
         // window.console.log(e);
-
         wordBoundaryList.push(e);
     };
 
@@ -308,12 +292,12 @@ function speakText(text) {
         // window.console.log(e);
         // console.log(e.privAudioOffset);
         // var real_id = 0
-        transferToUnity += voiceDictionary[e.privVisemeId] + " " + String(e.privAudioOffset) + " ";
+        // transferToUnity += voiceDictionary[e.privVisemeId] + " " + String(e.privAudioOffset) + " ";
         // myUnityInstance.SendMessage("EventSystem", "WebTest", "" + voiceDictionary[e.privVisemeId] + " " + String(e.privAudioOffset));
         //eventsDiv.innerHTML += "(Viseme), Audio offset: " + e.audioOffset / 10000 + "ms. Viseme ID: " + e.visemeId + '\n';
 
 
-        // transferToUnity = String(e.privAudioOffset) + " " + String(e.privVisemeId);
+        transferToUnity = String(e.privAudioOffset) + " " + String(e.privVisemeId);
         // console.log(transferToUnity);
         // talkingHeadDiv.innerHTML = e.animation.replaceAll("begin=\"0.5s\"", "begin=\"indefinite\"");
         // $("svg").width('500px').height('500px');
@@ -382,7 +366,7 @@ var vm = new Vue({
 
                 $.post("/",
                     {
-                        animal: vm.newMessage,
+                        animal: vm.allMessage,
                     },
                     function (data, status) {
                         if (data !== '') {

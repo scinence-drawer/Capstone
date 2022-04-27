@@ -3,7 +3,6 @@
 <head>
     <title>Microsoft Cognitive Services Speech SDK JavaScript Sample for Speech Synthesis</title>
     <meta charset="utf-8"/>
-    <script src="../static/microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
 
     <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.6.0.min.js"></script>
     <style>
@@ -492,8 +491,8 @@
 
             if (isSsml.checked) {
                 {
-                    // synthesisText.value = "We are getting further and further out of our way.";
-
+                    #synthesisText.value = "We are getting further and further out of our way.";
+                    #
                 }
 
                 synthesizer.speakSsmlAsync(synthesisText.value,
@@ -501,8 +500,8 @@
                     err_cb);
             } else {
                 {
-                    // synthesisText.value = "We are getting further and further out of our way.";
-
+                    #synthesisText.value = "We are getting further and further out of our way.";
+                    #
                 }
                 synthesizer.speakTextAsync(synthesisText.value,
                     complete_cb,
@@ -602,6 +601,7 @@
         });
     });
 </script>
+<script src="../static/microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
 
 </body>
 </html>
