@@ -132,8 +132,8 @@ a {
 }
 
 .right-side {
-    margin-left: auto;
     flex-basis: 400px;
+    width: 20%;
     height: 100%;
     padding: 16px;
     position: relative;

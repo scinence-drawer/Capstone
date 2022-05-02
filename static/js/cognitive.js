@@ -177,21 +177,21 @@ function doContinuousRecognition() {
 }
 
 
-        function getSpeechConfig(sdkConfigType) {
-            let speechConfig;
-            // if (authorizationToken) {
-            //     speechConfig = sdkConfigType.fromAuthorizationToken(authorizationToken, regionOptions.value);
-            // } else if (!key.value) {
-            //     alert("Please enter your Cognitive Services Speech subscription key!");
-            //     return undefined;
-            // } else {
-                //懒狗北欧服务器
-                speechConfig = SpeechSDK.SpeechConfig.fromSubscription("d854eafd081d4f8082cda731dd03dacc", "northeurope");
-                // 大中华区服务器
-                //speechConfig = SpeechSDK.SpeechConfig.fromSubscription("66e477bdd562461d81b2308d43603c8c", "eastasia");
-                //美帝区域服务器
-                // speechConfig = SpeechSDK.SpeechConfig.fromSubscription("4ab06069885845d395d69e85ddd51cba", "eastus");
-            // }
+function getSpeechConfig(sdkConfigType) {
+    let speechConfig;
+    // if (authorizationToken) {
+    //     speechConfig = sdkConfigType.fromAuthorizationToken(authorizationToken, regionOptions.value);
+    // } else if (!key.value) {
+    //     alert("Please enter your Cognitive Services Speech subscription key!");
+    //     return undefined;
+    // } else {
+    //懒狗北欧服务器
+    speechConfig = SpeechSDK.SpeechConfig.fromSubscription("d854eafd081d4f8082cda731dd03dacc", "northeurope");
+    // 大中华区服务器
+    //speechConfig = SpeechSDK.SpeechConfig.fromSubscription("66e477bdd562461d81b2308d43603c8c", "eastasia");
+    //美帝区域服务器
+    // speechConfig = SpeechSDK.SpeechConfig.fromSubscription("4ab06069885845d395d69e85ddd51cba", "eastus");
+    // }
 
     // Setting the result output format to Detailed will request that the underlying
     // result JSON include alternates, confidence scores, lexical forms, and other
@@ -500,5 +500,5 @@ document.onkeydown = function (event) {
         }
         //要做的事情
 
-        }
-      };
+    }
+};

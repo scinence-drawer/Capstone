@@ -5,14 +5,14 @@ var updateVoiceListButton;
 
 // subscription key and region for speech services.
 var subscriptionKey, regionOptions;
-var playbackcount=0;
+var playbackcount = 0;
 var authorizationToken;
 var voiceOptions, isSsml;
 var SpeechSDK;
 var synthesisText;
 var synthesizer;
 var player;
-var usespeechinput=false;
+var usespeechinput = false;
 var wordBoundaryList = [];
 // var voiceDictionary=[[3,4,7,8,10],[15,17,18],[6,13,14,16,19,20],[1,2,9,11,21],[5,12],[0]];
 //0:BiZui
@@ -160,13 +160,11 @@ const err_cb = function (err) {
 
 var speechConfig;
 //懒狗北欧服务器
-speechConfig = SpeechSDK.SpeechConfig.fromSubscription("d854eafd081d4f8082cda731dd03dacc", "northeurope");
+// speechConfig = SpeechSDK.SpeechConfig.fromSubscription("d854eafd081d4f8082cda731dd03dacc", "northeurope");
 // 大中华区服务器
-//speechConfig = SpeechSDK.SpeechConfig.fromSubscription("66e477bdd562461d81b2308d43603c8c", "eastasia");
+speechConfig = SpeechSDK.SpeechConfig.fromSubscription("66e477bdd562461d81b2308d43603c8c", "eastasia");
 //美帝区域服务器
 // speechConfig = SpeechSDK.SpeechConfig.fromSubscription("4ab06069885845d395d69e85ddd51cba", "eastus");
-
-
 
 
 // amber  声线  声音在这改
@@ -224,20 +222,19 @@ function speakText(text) {
         console.log(new Date().getTime() - start)
         // startSynthesisAsyncButton.disabled = false;
         wordBoundaryList = [];
-            document.getElementById("fang").disabled=false;
+        document.getElementById("fang").disabled = false;
 
-        if(playbackcount===0){
+        if (playbackcount === 0) {
             // userPermission.disabled=false;
 
 
         }
-        if(playbackcount>0 && userPermissionbool===true){
-            userPermission.disabled=false;
+        if (playbackcount > 0 && userPermissionbool === true) {
+            userPermission.disabled = false;
 
             doContinuousRecognition();
         }
         playbackcount++;
-
 
 
         // fetchText();
@@ -295,12 +292,12 @@ function speakText(text) {
         // window.console.log(e);
         // console.log(e.privAudioOffset);
         // var real_id = 0
-        // transferToUnity += voiceDictionary[e.privVisemeId] + " " + String(e.privAudioOffset) + " ";
+        transferToUnity += voiceDictionary[e.privVisemeId] + " " + String(e.privAudioOffset) + " ";
         // myUnityInstance.SendMessage("EventSystem", "WebTest", "" + voiceDictionary[e.privVisemeId] + " " + String(e.privAudioOffset));
         //eventsDiv.innerHTML += "(Viseme), Audio offset: " + e.audioOffset / 10000 + "ms. Viseme ID: " + e.visemeId + '\n';
 
 
-        transferToUnity = String(e.privAudioOffset) + " " + String(e.privVisemeId);
+        // transferToUnity = String(e.privAudioOffset) + " " + String(e.privVisemeId);
         // console.log(transferToUnity);
         // talkingHeadDiv.innerHTML = e.animation.replaceAll("begin=\"0.5s\"", "begin=\"indefinite\"");
         // $("svg").width('500px').height('500px');
@@ -346,7 +343,7 @@ var vm = new Vue({
         isTyping: false,
         isThinking: false,
         newMessage: '',
-        allMessage:"Friend: Are you my best friends?\nYou: Of course.",
+        allMessage: "Friend: Are you my best friends?\nYou: Of course.",
         resMessage: "",
         contents: [],
 
@@ -364,7 +361,7 @@ var vm = new Vue({
 
             this.contents.push({text: this.newMessage, isUser: true});
             this.isThinking = true;
-            this.allMessage += "\nFriend:"+this.newMessage+"\nYou:";
+            this.allMessage += "\nFriend:" + this.newMessage + "\nYou:";
             var a = function (vm) {
 
                 $.post("/",
@@ -389,14 +386,11 @@ var vm = new Vue({
             }
             a(this);
 
-            if(player){
+            if (player) {
 
                 player.pause();
-                player= undefined;
+                player = undefined;
             }
-
-
-
 
 
         },
@@ -417,19 +411,18 @@ function moveChat() {
 }
 
 // userPermission.disabled=true;
-document.getElementById("fang").disabled=true;
-
+document.getElementById("fang").disabled = true;
 
 
 // setTimeout(function (){alert('一眼丁真')},5000);
 setTimeout(function () {
     speakText("Hello,How's it going?");
     // userPermission.disabled=false;
-    document.getElementById("fang").disabled=false;
+    document.getElementById("fang").disabled = false;
 
-    setTimeout(function (){
+    setTimeout(function () {
         playbackcount++;
 
-    },4000)
+    }, 4000)
 }, 6000);
 
