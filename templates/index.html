@@ -163,9 +163,9 @@
     var buildUrl = "{{ url_for('static', filename='Build') }}";
     var loaderUrl = buildUrl + "/Project-Test.loader.js";
     var config = {
-        dataUrl: buildUrl + "/Project-Test.data",
-        frameworkUrl: buildUrl + "/Project-Test.framework.js",
-        codeUrl: buildUrl + "/Project-Test.wasm",
+        dataUrl: buildUrl + "/Project-Test.data.gz",
+        frameworkUrl: buildUrl + "/Project-Test.framework.js.gz",
+        codeUrl: buildUrl + "/Project-Test.wasm.gz",
         streamingAssetsUrl: "{{ url_for('static', filename='StreamingAssets') }}",
         companyName: "DefaultCompany",
         productName: "off-axis-projection",
